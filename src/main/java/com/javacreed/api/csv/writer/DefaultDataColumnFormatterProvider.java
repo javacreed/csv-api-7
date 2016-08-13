@@ -1,3 +1,22 @@
+/*
+ * #%L
+ * JavaCreed CSV API
+ * %%
+ * Copyright (C) 2012 - 2016 Java Creed
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package com.javacreed.api.csv.writer;
 
 import java.util.ArrayList;
@@ -19,7 +38,20 @@ public class DefaultDataColumnFormatterProvider implements DataColumnFormatterPr
 
     private final List<OrderedDataColumnFormatterProvider> list = new ArrayList<>();
 
+    private final IndexColumnFormatterProvider.Builder indexColumnFormatterProviderBuilder = new IndexColumnFormatterProvider.Builder()
+        .order(4);
+
+    private final TypeColumnFormatterProvider.Builder typeColumnFormatterProviderBuilder = new TypeColumnFormatterProvider.Builder()
+        .order(6);
+
     public DataColumnFormatterProvider build() {
+      final List<OrderedDataColumnFormatterProvider> list = new ArrayList<>(this.list);
+      if (indexColumnFormatterProviderBuilder.isNotEmpty()) {
+        list.add(indexColumnFormatterProviderBuilder.build());
+      }
+      if (typeColumnFormatterProviderBuilder.isNotEmpty()) {
+        list.add(typeColumnFormatterProviderBuilder.build());
+      }
       Collections.sort(list);
       return new DefaultDataColumnFormatterProvider(defaultFormatter, list);
     }
@@ -29,27 +61,22 @@ public class DefaultDataColumnFormatterProvider implements DataColumnFormatterPr
       return this;
     }
 
-    // private <T extends OrderedDataColumnFormatterProvider> T find(final Class<T> type) {
-    // for (final OrderedDataColumnFormatterProvider provider : list) {
-    // if (type.equals(provider.getClass())) {
-    // return type.cast(provider);
-    // }
-    // }
-    //
-    // return null;
-    // }
+    public Builder register(final Class<?> type, final DataColumnFormatter columnFormatter) {
+      typeColumnFormatterProviderBuilder.register(type, columnFormatter);
+      return this;
+    }
+
+    public Builder register(final DataColumnFormatter columnFormatter, final int... columns) {
+      for (final int column : columns) {
+        indexColumnFormatterProviderBuilder.register(column, columnFormatter);
+      }
+      return this;
+    }
 
     public Builder register(final OrderedDataColumnFormatterProvider columnFormatterProvider) {
       list.add(Objects.requireNonNull(columnFormatterProvider));
       return this;
     }
-
-    // public void registerTypeFormatter(final Class<?> type, final DataColumnFormatter dataColumnFormatter) {
-    // TypeColumnFormatterProvider provider = find(TypeColumnFormatterProvider.class);
-    // if (provider == null) {
-    // register(new TypeColumnFormatterProvider(order));
-    // }
-    // }
   }
 
   public static final DataColumnFormatterProvider DEFAULT = new DefaultDataColumnFormatterProvider.Builder().build();

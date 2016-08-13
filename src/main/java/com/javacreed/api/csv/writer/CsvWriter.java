@@ -22,11 +22,10 @@ package com.javacreed.api.csv.writer;
 import java.io.IOException;
 import java.util.Objects;
 
-public class CsvWriter implements AutoCloseable {
+import net.jcip.annotations.NotThreadSafe;
 
-  private static interface LineWriter {
-    void write() throws IOException;
-  }
+@NotThreadSafe
+public class CsvWriter implements AutoCloseable {
 
   private final Appendable appendable;
 
@@ -39,27 +38,6 @@ public class CsvWriter implements AutoCloseable {
   private CsvFormatter formatter = DefaultCsvFormatter.DEFAULT;
 
   private ErrorHandler errorHandler = DefaultErrorHandler.INSTANCE;
-
-  private final LineWriter headerWriter = new LineWriter() {
-    @Override
-    public void write() throws IOException {
-      writeHeader(headers.getHeaders());
-      lineWriter.write();
-      CsvWriter.this.currentWriter = lineWriter;
-    };
-  };
-
-  private final LineWriter lineWriter = new LineWriter() {
-    @Override
-    public void write() throws IOException {
-      if (line != null) {
-        writeLine(lineValues);
-        line = null;
-      }
-    };
-  };
-
-  private LineWriter currentWriter = headerWriter;
 
   private boolean closeAppendable;
 
@@ -97,13 +75,18 @@ public class CsvWriter implements AutoCloseable {
     return this;
   }
 
-  public CsvWriter headers(final Headers headers) throws NullPointerException {
+  public CsvWriter headers(final Headers headers) throws NullPointerException, CsvHeadersAlreadySetException {
+    if (this.headers != null) {
+      throw new CsvHeadersAlreadySetException();
+    }
+
     this.headers = Objects.requireNonNull(headers, "The headers cannot be null");
     lineValues = new Object[headers.size()];
+    writeHeader(headers.getHeaders());
     return this;
   }
 
-  public CsvWriter headers(final String... headers) throws DuplicateColumnNameException {
+  public CsvWriter headers(final String... headers) throws DuplicateColumnNameException, CsvHeadersAlreadySetException {
     return headers(new Headers(headers));
   }
 
@@ -126,10 +109,9 @@ public class CsvWriter implements AutoCloseable {
   }
 
   private void writeLine() {
-    try {
-      currentWriter.write();
-    } catch (final IOException e) {
-      errorHandler.io(e);
+    if (line != null) {
+      writeLine(lineValues);
+      line = null;
     }
   }
 

@@ -19,16 +19,16 @@
  */
 package com.javacreed.api.csv.writer;
 
-public class CsvException extends RuntimeException {
+public class StringColumnFormatter implements DataColumnFormatter {
 
-  private static final long serialVersionUID = 7616068864835254501L;
+  private final String pattern;
 
-  public CsvException(final String message) {
-    super(message);
+  public StringColumnFormatter(final String pattern) {
+    this.pattern = pattern;
   }
 
-  public CsvException(final Throwable cause) {
-    super(cause);
+  @Override
+  public String format(final int columnIndex, final Object value) {
+    return String.format(pattern, value);
   }
-
 }

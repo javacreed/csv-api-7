@@ -44,9 +44,18 @@ public class DefaultCsvFormatter implements CsvFormatter {
 
     private HeaderColumnFormatter headerColumnFormatter = DefaultHeaderColumnFormatter.INSTANCE;
 
-    private DataColumnFormatterProvider columnFormatterProvider = DefaultDataColumnFormatterProvider.DEFAULT;
+    private DataColumnFormatterProvider columnFormatterProvider;
+
+    private final DefaultDataColumnFormatterProvider.Builder columnFormatterProviderBuilder = new DefaultDataColumnFormatterProvider.Builder();
 
     public DefaultCsvFormatter build() {
+      final DataColumnFormatterProvider columnFormatterProvider;
+      if (this.columnFormatterProvider == null) {
+        columnFormatterProvider = columnFormatterProviderBuilder.build();
+      } else {
+        columnFormatterProvider = this.columnFormatterProvider;
+      }
+
       return new DefaultCsvFormatter(valueSeparator, lineSeparator, escapeCharacter, headerColumnFormatter,
           columnFormatterProvider);
     }
@@ -59,6 +68,12 @@ public class DefaultCsvFormatter implements CsvFormatter {
     public Builder escapeCharacter(final String escapeCharacter) {
       this.escapeCharacter = escapeCharacter;
       return this;
+    }
+
+    private void failIfColumnFormatterProviderIsSet() throws IllegalStateException {
+      if (columnFormatterProvider != null) {
+        throw new IllegalStateException("The column formatter provider is already set");
+      }
     }
 
     public Builder headerColumnFormatter(final HeaderColumnFormatter headerColumnFormatter)
@@ -74,6 +89,22 @@ public class DefaultCsvFormatter implements CsvFormatter {
 
     public Builder nativeLineSeparator() {
       return lineSeparator(System.lineSeparator());
+    }
+
+    public Builder register(final Class<?> type, final DataColumnFormatter columnFormatter) {
+      failIfColumnFormatterProviderIsSet();
+      columnFormatterProviderBuilder.register(type, columnFormatter);
+      return this;
+    }
+
+    public void register(final DataColumnFormatter columnFormatter, final int... columns) {
+      columnFormatterProviderBuilder.register(columnFormatter, columns);
+    }
+
+    public Builder register(final OrderedDataColumnFormatterProvider columnFormatterProvider) {
+      failIfColumnFormatterProviderIsSet();
+      columnFormatterProviderBuilder.register(columnFormatterProvider);
+      return this;
     }
 
     public Builder valueSeparator(final String valueSeparator) {

@@ -1,3 +1,22 @@
+/*
+ * #%L
+ * JavaCreed CSV API
+ * %%
+ * Copyright (C) 2012 - 2016 Java Creed
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package com.javacreed.api.csv.writer;
 
 import java.util.Collections;
@@ -24,22 +43,26 @@ public class IndexColumnFormatterProvider extends AbstractColumnFormatterProvide
       return new IndexColumnFormatterProvider(order, byIndex);
     }
 
+    public boolean isNotEmpty() {
+      return false == byIndex.isEmpty();
+    }
+
     public Builder order(final int order) {
       this.order = order;
       return this;
     }
 
-    public Builder register(final int index, final DataColumnFormatter columnFormater)
+    public Builder register(final int index, final DataColumnFormatter columnFormatter)
         throws NullPointerException, IllegalArgumentException {
       if (index < 0) {
         throw new IllegalArgumentException("The index cannot be negative");
       }
-      byIndex.put(index, Objects.requireNonNull(columnFormater));
+      byIndex.put(index, Objects.requireNonNull(columnFormatter));
       return this;
     }
   }
 
-  public static final int DEFAULT_ORDER = 2;
+  public static final int DEFAULT_ORDER = 3;
 
   private final Map<Integer, DataColumnFormatter> byIndex;
 

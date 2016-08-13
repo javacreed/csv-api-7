@@ -19,9 +19,15 @@
  */
 package com.javacreed.api.csv.writer;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.jcip.annotations.Immutable;
+import net.jcip.annotations.ThreadSafe;
+
+@ThreadSafe
+@Immutable
 public class Headers {
 
   private final String[] headers;
@@ -40,7 +46,7 @@ public class Headers {
   }
 
   public String[] getHeaders() {
-    return headers;
+    return Arrays.copyOf(headers, headers.length);
   }
 
   public int indexOf(final String columnName) {
