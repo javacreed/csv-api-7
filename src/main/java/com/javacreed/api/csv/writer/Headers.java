@@ -19,45 +19,10 @@
  */
 package com.javacreed.api.csv.writer;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.TreeMap;
+public interface Headers {
 
-import net.jcip.annotations.Immutable;
-import net.jcip.annotations.ThreadSafe;
+  int indexOf(String columnName) throws UnsupportedOperationException;
 
-@ThreadSafe
-@Immutable
-public class Headers {
+  int size();
 
-  private final String[] headers;
-  private final Map<String, Integer> columnsIndices = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-
-  public Headers(final String... headers) throws DuplicateColumnNameException {
-    this.headers = headers;
-    for (int i = 0; i < headers.length; i++) {
-      final String header = headers[i];
-      if (columnsIndices.containsKey(header)) {
-        throw new DuplicateColumnNameException(header);
-      }
-
-      columnsIndices.put(header, i);
-    }
-  }
-
-  public String[] getHeaders() {
-    return Arrays.copyOf(headers, headers.length);
-  }
-
-  public int indexOf(final String columnName) {
-    if (columnsIndices.containsKey(columnName)) {
-      return columnsIndices.get(columnName);
-    }
-
-    throw new ColumnNotFoundException(columnName);
-  }
-
-  public int size() {
-    return columnsIndices.size();
-  }
 }

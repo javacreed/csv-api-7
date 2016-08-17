@@ -34,5 +34,4 @@ public class ColumnException extends RuntimeException {
   public String getColumnName() {
     return columnName;
   }
-
 }

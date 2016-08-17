@@ -65,6 +65,16 @@ public class CsvWriter implements AutoCloseable {
     return this;
   }
 
+  public CsvWriter columns(final int numberOfColumns) {
+    if (this.headers != null) {
+      throw new CsvHeadersAlreadySetException();
+    }
+
+    this.headers = new BlankHeaders(numberOfColumns);
+    lineValues = new Object[headers.size()];
+    return this;
+  }
+
   public CsvWriter errorHandler(final ErrorHandler errorHandler) throws NullPointerException {
     this.errorHandler = Objects.requireNonNull(errorHandler, "The error handler cannot be null");
     return this;
@@ -75,7 +85,7 @@ public class CsvWriter implements AutoCloseable {
     return this;
   }
 
-  public CsvWriter headers(final Headers headers) throws NullPointerException, CsvHeadersAlreadySetException {
+  public CsvWriter headers(final DefaultHeaders headers) throws NullPointerException, CsvHeadersAlreadySetException {
     if (this.headers != null) {
       throw new CsvHeadersAlreadySetException();
     }
@@ -87,7 +97,7 @@ public class CsvWriter implements AutoCloseable {
   }
 
   public CsvWriter headers(final String... headers) throws DuplicateColumnNameException, CsvHeadersAlreadySetException {
-    return headers(new Headers(headers));
+    return headers(new DefaultHeaders(headers));
   }
 
   public CsvLine line() {

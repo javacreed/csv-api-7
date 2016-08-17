@@ -19,21 +19,30 @@
  */
 package com.javacreed.api.csv.writer;
 
-public abstract class AbstractColumnFormatterProvider implements OrderedDataColumnFormatterProvider {
+import net.jcip.annotations.Immutable;
+import net.jcip.annotations.ThreadSafe;
 
-  private final int order;
+@ThreadSafe
+@Immutable
+public class BlankHeaders implements Headers {
 
-  protected AbstractColumnFormatterProvider(final int order) {
-    this.order = order;
+  private final int size;
+
+  public BlankHeaders(final int size) throws IllegalArgumentException {
+    if (size < 0) {
+      throw new IllegalArgumentException("The header size cannot be negative");
+    }
+
+    this.size = size;
   }
 
   @Override
-  public int compareTo(final OrderedDataColumnFormatterProvider o) {
-    return Integer.compare(order, o.getOrder());
+  public int indexOf(final String columnName) throws UnsupportedOperationException {
+    throw new UnsupportedOperationException("Column names were not provided");
   }
 
   @Override
-  public int getOrder() {
-    return order;
+  public int size() {
+    return size;
   }
 }
