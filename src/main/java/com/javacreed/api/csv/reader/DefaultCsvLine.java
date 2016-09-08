@@ -17,24 +17,29 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.api.csv.writer;
+package com.javacreed.api.csv.reader;
 
-import net.jcip.annotations.Immutable;
-import net.jcip.annotations.ThreadSafe;
+import java.util.Objects;
 
-@Immutable
-@ThreadSafe
-public class DefaultDataColumnFormatter implements DataColumnFormatter {
+import com.javacreed.api.csv.common.Headers;
 
-  public static final DataColumnFormatter INSTANCE = new DefaultDataColumnFormatter();
+public class DefaultCsvLine implements CsvLine {
 
-  private DefaultDataColumnFormatter() {}
+  private final Headers headers;
+  private final String[] values;
+
+  public DefaultCsvLine(final Headers headers, final String[] values) {
+    this.headers = Objects.requireNonNull(headers);
+    this.values = Objects.requireNonNull(values);
+  }
 
   @Override
-  public String format(final int columnIndex, final Object value) {
-    if (value == null) {
-      return NullColumnFormatter.DEFAULT_NULL_VALUE;
-    }
-    return value.toString();
+  public String getValue(final int columnIndex) {
+    return values[columnIndex];
+  }
+
+  @Override
+  public String getValue(final String columnName) {
+    return getValue(headers.indexOf(columnName));
   }
 }

@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,10 @@ package com.javacreed.api.csv.writer;
 
 import java.io.IOException;
 import java.util.Objects;
+
+import com.javacreed.api.csv.common.BlankHeaders;
+import com.javacreed.api.csv.common.DefaultHeaders;
+import com.javacreed.api.csv.common.Headers;
 
 import net.jcip.annotations.NotThreadSafe;
 
@@ -65,7 +69,7 @@ public class CsvWriter implements AutoCloseable {
     return this;
   }
 
-  public CsvWriter columns(final int numberOfColumns) {
+  public CsvWriter columns(final int numberOfColumns) throws IllegalArgumentException, CsvHeadersAlreadySetException {
     if (this.headers != null) {
       throw new CsvHeadersAlreadySetException();
     }

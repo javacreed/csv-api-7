@@ -17,24 +17,12 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.api.csv.writer;
+package com.javacreed.api.csv.common;
 
-import net.jcip.annotations.Immutable;
-import net.jcip.annotations.ThreadSafe;
+public interface Headers {
 
-@Immutable
-@ThreadSafe
-public class DefaultDataColumnFormatter implements DataColumnFormatter {
+  int indexOf(String columnName) throws UnsupportedOperationException;
 
-  public static final DataColumnFormatter INSTANCE = new DefaultDataColumnFormatter();
+  int size();
 
-  private DefaultDataColumnFormatter() {}
-
-  @Override
-  public String format(final int columnIndex, final Object value) {
-    if (value == null) {
-      return NullColumnFormatter.DEFAULT_NULL_VALUE;
-    }
-    return value.toString();
-  }
 }

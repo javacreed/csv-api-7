@@ -17,24 +17,32 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.api.csv.writer;
+package com.javacreed.api.csv.common;
 
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
 
-@Immutable
 @ThreadSafe
-public class DefaultDataColumnFormatter implements DataColumnFormatter {
+@Immutable
+public class BlankHeaders implements Headers {
 
-  public static final DataColumnFormatter INSTANCE = new DefaultDataColumnFormatter();
+  private final int size;
 
-  private DefaultDataColumnFormatter() {}
+  public BlankHeaders(final int size) throws IllegalArgumentException {
+    if (size < 0) {
+      throw new IllegalArgumentException("The header size cannot be negative");
+    }
+
+    this.size = size;
+  }
 
   @Override
-  public String format(final int columnIndex, final Object value) {
-    if (value == null) {
-      return NullColumnFormatter.DEFAULT_NULL_VALUE;
-    }
-    return value.toString();
+  public int indexOf(final String columnName) throws UnsupportedOperationException {
+    throw new UnsupportedOperationException("Column names were not provided");
+  }
+
+  @Override
+  public int size() {
+    return size;
   }
 }
