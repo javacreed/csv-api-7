@@ -19,10 +19,35 @@
  */
 package com.javacreed.api.csv.common;
 
+/**
+ * The CSV header defines the number of columns the CSV file has and optionally provides a mapping between column names
+ * and column indices. The latter is optional as we may have CSV without headers and thus we do not have means to map
+ * between column names and indices.
+ *
+ * @author Albert Attard
+ */
 public interface Headers {
 
-  int indexOf(String columnName) throws UnsupportedOperationException;
+  /**
+   * Returns the index of the given column name if one is found, otherwise a {@link ColumnNotFoundException} is thrown.
+   * Note that the default implementation is case-insensitive but other implementatin may be not.
+   *
+   * @param columnName
+   *          the column name (which cannot be {@code null})
+   * @return the index of this column
+   * @throws ColumnNotFoundException
+   *           if no column is found with the given name
+   * @throws UnsupportedOperationException
+   *           if the CVS does not provide column names
+   * @throws NullPointerException
+   *           if the given {@code columnName} is {@code null}
+   */
+  int indexOf(String columnName) throws ColumnNotFoundException, UnsupportedOperationException, NullPointerException;
 
+  /**
+   * Returns the number of columns (a positive number)
+   *
+   * @return the number of columns (a positive number)
+   */
   int size();
-
 }

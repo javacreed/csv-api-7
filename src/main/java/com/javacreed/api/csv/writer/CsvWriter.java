@@ -24,6 +24,7 @@ import java.util.Objects;
 
 import com.javacreed.api.csv.common.BlankHeaders;
 import com.javacreed.api.csv.common.DefaultHeaders;
+import com.javacreed.api.csv.common.DuplicateColumnNameException;
 import com.javacreed.api.csv.common.Headers;
 
 import net.jcip.annotations.NotThreadSafe;
@@ -96,7 +97,9 @@ public class CsvWriter implements AutoCloseable {
 
     this.headers = Objects.requireNonNull(headers, "The headers cannot be null");
     lineValues = new Object[headers.size()];
-    writeHeader(headers.getHeaders());
+    if (headers.hasValues()) {
+      writeHeader(headers.getHeaders());
+    }
     return this;
   }
 

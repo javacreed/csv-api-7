@@ -19,13 +19,7 @@
  */
 package com.javacreed.api.csv.reader;
 
-public interface CsvLine {
+public interface CsvLineMapper<T> {
 
-  <T> T getParsedValue(CsvParser<T> parser, int columnIndex) throws CsvParserException;
-
-  <T> T getParsedValue(CsvParser<T> parser, String columnName) throws CsvParserException;
-
-  String getValue(int columnIndex);
-
-  String getValue(String columnName);
+  T mapLine(CsvLine line) throws Exception;
 }

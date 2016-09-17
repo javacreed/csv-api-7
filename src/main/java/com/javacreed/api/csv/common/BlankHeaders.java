@@ -22,12 +22,27 @@ package com.javacreed.api.csv.common;
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
 
+/**
+ * Represents headers without names. The method {@link #indexOf(String)} throws an {@link UnsupportedOperationException}
+ * when invoked.
+ *
+ * @author Albert Attard
+ */
 @ThreadSafe
 @Immutable
 public class BlankHeaders implements Headers {
 
+  /** The number of columns (also referred to as the header size) */
   private final int size;
 
+  /**
+   * Creates an instance of this class
+   *
+   * @param size
+   *          the number of columns (which must be greater than or equal to 0)
+   * @throws IllegalArgumentException
+   *           if the given {@code size} is negative (less than 0)
+   */
   public BlankHeaders(final int size) throws IllegalArgumentException {
     if (size < 0) {
       throw new IllegalArgumentException("The header size cannot be negative");

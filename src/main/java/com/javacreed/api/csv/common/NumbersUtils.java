@@ -19,9 +19,31 @@
  */
 package com.javacreed.api.csv.common;
 
+/**
+ * Utilities methods related to numbers
+ *
+ * @author Albert Attard
+ */
 public class NumbersUtils {
 
-  public static int failIfNotInRange(final int value, final int minValue, final int maxValue, final String fieldName) {
+  /**
+   * Fails with an {@link IllegalArgumentException} if the given {@code value} is less than {@code minValue} or greater
+   * than {@code maxValue}, otherwise it returns the given {@code value}.
+   *
+   * @param value
+   *          the value to be checked
+   * @param minValue
+   *          the minimum allowed value (inclusive)
+   * @param maxValue
+   *          the maximum allowed value (inclusive)
+   * @param fieldName
+   *          the field name (used in the exception message)
+   * @return the given value
+   * @throws IllegalArgumentException
+   *           if the given {@code value} is less than or greater than the given boundaries (both inclusive)
+   */
+  public static int failIfNotInRange(final int value, final int minValue, final int maxValue, final String fieldName)
+      throws IllegalArgumentException {
     if (value < minValue || value > maxValue) {
       throw new IllegalArgumentException(
           "The " + fieldName + " value " + value + " is out of range: [" + minValue + "," + maxValue + "]");
@@ -30,7 +52,18 @@ public class NumbersUtils {
     return value;
   }
 
-  public static int failIfNotPositive(final int value, final String fieldName) {
+  /**
+   * Fails if the given {@code value} is negative (that is less than {@code 0}).
+   *
+   * @param value
+   *          the value to be checked
+   * @param fieldName
+   *          the field name (used in the exception message)
+   * @return the given value
+   * @throws IllegalArgumentException
+   *           if the given {@code value} negative (that is less than 0)
+   */
+  public static int failIfNotPositive(final int value, final String fieldName) throws IllegalArgumentException {
     if (value < 0) {
       throw new IllegalArgumentException("The " + fieldName + " value is negative (less than zero)");
     }
@@ -38,5 +71,6 @@ public class NumbersUtils {
     return value;
   }
 
+  /** Cannot be initialised */
   private NumbersUtils() {}
 }

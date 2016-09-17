@@ -19,13 +19,24 @@
  */
 package com.javacreed.api.csv.reader;
 
-public interface CsvLine {
+public class CsvParserException extends CsvReadException {
 
-  <T> T getParsedValue(CsvParser<T> parser, int columnIndex) throws CsvParserException;
+  /** */
+  private static final long serialVersionUID = -6766221199427575731L;
 
-  <T> T getParsedValue(CsvParser<T> parser, String columnName) throws CsvParserException;
+  public CsvParserException() {
+    super();
+  }
 
-  String getValue(int columnIndex);
+  public CsvParserException(final String message) {
+    super(message);
+  }
 
-  String getValue(String columnName);
+  public CsvParserException(final String message, final Throwable cause) {
+    super(message, cause);
+  }
+
+  public CsvParserException(final Throwable cause) {
+    super(cause);
+  }
 }

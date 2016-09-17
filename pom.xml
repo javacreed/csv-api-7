@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -8,6 +9,7 @@
 	<packaging>bundle</packaging>
 
 	<name>JavaCreed CSV API</name>
+	<description>A light CSV API that can be easily configured and customised to read CSV to Java Objects and write Java Objects to CSV</description>
 	<url>http://www.javacreed.com/${project.artifactId}/</url>
 	<inceptionYear>${project.inceptionYear}</inceptionYear>
 	<organization>
@@ -38,6 +40,22 @@
 			<timezone>CET</timezone>
 		</developer>
 	</developers>
+
+	<contributors>
+		<contributor>
+			<name>Albert Attard</name>
+			<email>albert@javacreed.com</email>
+			<url>${project.organization.url}</url>
+			<organization>${project.organization.name}</organization>
+			<organizationUrl>${project.organization.url}</organizationUrl>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+				<role>writer</role>
+			</roles>
+			<timezone>CET</timezone>
+		</contributor>
+	</contributors>
 
 	<build>
 		<plugins>
@@ -90,7 +108,8 @@
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -126,6 +145,47 @@
 		</pluginManagement>
 	</build>
 
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<formats>
+						<format>html</format>
+						<format>xml</format>
+					</formats>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.4</version>
+				<configuration>
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<id>default</id>
+						<configuration>
+						</configuration>
+						<reports>
+							<report>javadoc</report>
+							<report>test-javadoc</report>
+						</reports>
+					</reportSet>
+					<reportSet>
+						<id>aggregate</id>
+						<configuration>
+						</configuration>
+						<reports>
+							<report>aggregate</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
 
 	<dependencies>
 		<dependency>
@@ -149,12 +209,6 @@
 			<groupId>org.easymock</groupId>
 			<artifactId>easymock</artifactId>
 			<version>3.2</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.7</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

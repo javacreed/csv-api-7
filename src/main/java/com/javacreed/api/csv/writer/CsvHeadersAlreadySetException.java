@@ -19,10 +19,20 @@
  */
 package com.javacreed.api.csv.writer;
 
-public class CsvHeadersAlreadySetException extends CsvException {
+import com.javacreed.api.csv.common.CsvRuntimeException;
+
+/**
+ * Thrown when the headers are already set. Once the headers are set, these cannot be changed
+ *
+ * @author Albert Attard
+ */
+public class CsvHeadersAlreadySetException extends CsvRuntimeException {
 
   private static final long serialVersionUID = 361423641749283863L;
 
+  /**
+   * Creates an instance of this class
+   */
   public CsvHeadersAlreadySetException() {
     super("Csv headers already set");
   }

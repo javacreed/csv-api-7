@@ -34,6 +34,29 @@ public class DefaultCsvLine implements CsvLine {
   }
 
   @Override
+  public <T> T getParsedValue(final CsvParser<T> parser, final int columnIndex) throws CsvParserException {
+    final String value = getValue(columnIndex);
+    try {
+      return parser.parse(value);
+    } catch (final Exception e) {
+      throw new CsvParserException(
+          "Failed to parse the value of column with index " + columnIndex + ": '" + value + "'", e);
+    }
+  }
+
+  @Override
+  public <T> T getParsedValue(final CsvParser<T> parser, final String columnName) throws CsvParserException {
+    final int columnIndex = headers.indexOf(columnName);
+    final String value = getValue(columnIndex);
+    try {
+      return parser.parse(value);
+    } catch (final Exception e) {
+      throw new CsvParserException(
+          "Failed to parse the value of column with name '" + columnName + "': '" + value + "'", e);
+    }
+  }
+
+  @Override
   public String getValue(final int columnIndex) {
     return values[columnIndex];
   }

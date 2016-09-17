@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,15 +17,26 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.api.csv.reader;
+package com.javacreed.api.csv.common;
 
-public interface CsvLine {
+import org.junit.Assert;
+import org.junit.Test;
 
-  <T> T getParsedValue(CsvParser<T> parser, int columnIndex) throws CsvParserException;
+/**
+ * Test the {@link BlankHeaders#size()} method
+ *
+ * @author Albert Attard
+ * @see BlankHeaders#size()
+ */
+public class BlankHeaders_Size_Test {
 
-  <T> T getParsedValue(CsvParser<T> parser, String columnName) throws CsvParserException;
-
-  String getValue(int columnIndex);
-
-  String getValue(String columnName);
+  /**
+   * Tests the {@link BlankHeaders#size()} method with valid values
+   */
+  @Test
+  public void test() {
+    Assert.assertEquals(0, new BlankHeaders(0).size());
+    Assert.assertEquals(10, new BlankHeaders(10).size());
+    Assert.assertEquals(Integer.MAX_VALUE, new BlankHeaders(Integer.MAX_VALUE).size());
+  }
 }
