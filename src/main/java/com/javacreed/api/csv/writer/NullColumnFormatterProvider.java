@@ -24,6 +24,11 @@ import java.util.Objects;
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
 
+/**
+ * The default null formatter provider
+ *
+ * @author Albert Attard
+ */
 @Immutable
 @ThreadSafe
 public class NullColumnFormatterProvider extends AbstractColumnFormatterProvider {
@@ -49,6 +54,14 @@ public class NullColumnFormatterProvider extends AbstractColumnFormatterProvider
     this(order, new NullColumnFormatter(nullEquivalent));
   }
 
+  /**
+   * Creates an instance of this formatter provider using the default order
+   *
+   * @param nullEquivalent
+   *          the string with which {@code null}s will be replaced (which cannot be {@code null})
+   * @throws NullPointerException
+   *           if the given null equivalent string is {@code null}
+   */
   public NullColumnFormatterProvider(final String nullEquivalent) throws NullPointerException {
     this(NullColumnFormatterProvider.DEFAULT_ORDER, new NullColumnFormatter(nullEquivalent));
   }

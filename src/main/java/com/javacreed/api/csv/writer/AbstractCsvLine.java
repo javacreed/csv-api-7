@@ -19,20 +19,21 @@
  */
 package com.javacreed.api.csv.writer;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 import com.javacreed.api.csv.common.Headers;
 
-public class DefaultCsvLine implements CsvLine {
+public abstract class AbstractCsvLine implements CsvLine {
 
   private final Headers headers;
   private final Object[] values;
 
-  public DefaultCsvLine(final Headers headers) throws NullPointerException {
+  public AbstractCsvLine(final Headers headers) throws NullPointerException {
     this(headers, new Object[headers.size()]);
   }
 
-  public DefaultCsvLine(final Headers headers, final Object[] values) throws NullPointerException {
+  public AbstractCsvLine(final Headers headers, final Object[] values) throws NullPointerException {
     this.headers = Objects.requireNonNull(headers);
     this.values = Objects.requireNonNull(values);
     if (headers.size() != values.length) {
@@ -40,17 +41,33 @@ public class DefaultCsvLine implements CsvLine {
     }
   }
 
+  /**
+   * Set all values to {@code null}
+   *
+   * @return this (for method chaining)
+   */
+  public AbstractCsvLine clear() {
+    Arrays.fill(values, null);
+    return this;
+  }
+
   public Object[] getValues() {
     return values;
   }
 
   @Override
-  public void setValue(final int columnIndex, final Object value) {
+  public AbstractCsvLine setValue(final int columnIndex, final Object value) {
+    if (columnIndex < 0 || columnIndex >= values.length) {
+      throw new CsvHeadersIndexOutOfBoundsException(columnIndex, values.length);
+    }
+
     values[columnIndex] = value;
+    return this;
   }
 
   @Override
-  public void setValue(final String columnName, final Object value) {
+  public AbstractCsvLine setValue(final String columnName, final Object value) {
     setValue(headers.indexOf(columnName), value);
+    return this;
   }
 }

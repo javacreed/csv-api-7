@@ -21,9 +21,9 @@ package com.javacreed.api.csv.writer;
 
 public interface CsvFormatter {
 
-  CharSequence formatCellValue(int columnIndex, Object value);
+  CharSequence formatCellValue(int columnIndex, Object value) throws CsvConfigurationException;
 
-  CharSequence formatHeaderValue(int columnIndex, String value);
+  CharSequence formatHeaderValue(int columnIndex, String value) throws CsvConfigurationException;
 
   CharSequence getLineSeparator();
 

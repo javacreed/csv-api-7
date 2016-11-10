@@ -19,8 +19,24 @@
  */
 package com.javacreed.api.csv.writer;
 
+/**
+ * A provider that provides the correct {@link DataColumnFormatter} if one is available for the given parameters,
+ * otherwise {@code null}.
+ *
+ * @author Albert Attard
+ * @see DataColumnFormatter
+ */
 public interface DataColumnFormatterProvider {
 
+  /**
+   * Returns a column formatter for the given column index and value, if one is found, otherwise {@code null}
+   *
+   * @param columnIndex
+   *          the column index
+   * @param value
+   *          the value (which may be {@code null})
+   * @return a column formatter for the given column index and value, if one is found, otherwise {@code null}
+   */
   DataColumnFormatter find(int columnIndex, Object value);
 
 }

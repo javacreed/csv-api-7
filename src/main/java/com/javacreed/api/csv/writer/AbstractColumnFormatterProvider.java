@@ -19,10 +19,22 @@
  */
 package com.javacreed.api.csv.writer;
 
+/**
+ * A skeleton implementation for the {@link OrderedDataColumnFormatterProvider}
+ *
+ * @author Albert Attard
+ */
 public abstract class AbstractColumnFormatterProvider implements OrderedDataColumnFormatterProvider {
 
+  /** The execution order. Formatters with a lower order will come before those with a larger order value. */
   private final int order;
 
+  /**
+   * Creates an instance of this class
+   *
+   * @param order
+   *          the order (where smaller values have higher precedence)
+   */
   protected AbstractColumnFormatterProvider(final int order) {
     this.order = order;
   }

@@ -26,16 +26,32 @@ import java.util.Map.Entry;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class DefaultCsvFormatterTest {
+/**
+ * Tests the functionality of the {@link DefaultCsvFormatter#formatCellValue(int, Object)} method
+ *
+ * @author Albert Attard
+ * @see DefaultCsvFormatter#formatCellValue(int, Object)
+ */
+public class DefaultCsvFormatter_FormatCellValue_Test {
 
+  /**
+   * Ensures that all defaults are properly formatted
+   */
   @Test
-  public void testDefaults() throws Exception {
+  public void testDefaults() {
     final Map<String, String> values = new LinkedHashMap<>();
     values.put("", "");
     values.put(null, "{NULL}");
+    values.put("hello,world", "hello\\,world");
+    values.put("hello\tworld", "hello\\tworld");
+    values.put("hello\bworld", "hello\\bworld");
+    values.put("hello\fworld", "hello\\fworld");
     values.put("hello\nworld", "hello\\nworld");
     values.put("hello\rworld", "hello\\rworld");
     values.put("hello\r\nworld", "hello\\r\\nworld");
+    values.put("hello\'world", "hello\\'world");
+    values.put("hello\"world", "hello\\\"world");
+    values.put("hello\\world", "hello\\\\world");
 
     final DefaultCsvFormatter formatter = DefaultCsvFormatter.DEFAULT;
     for (final Entry<String, String> entry : values.entrySet()) {

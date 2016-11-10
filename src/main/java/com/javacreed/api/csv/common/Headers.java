@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,20 +29,20 @@ package com.javacreed.api.csv.common;
 public interface Headers {
 
   /**
-   * Returns the index of the given column name if one is found, otherwise a {@link ColumnNotFoundException} is thrown.
-   * Note that the default implementation is case-insensitive but other implementatin may be not.
+   * Returns the index of the given column name if one is found, otherwise a {@link CsvColumnNotFoundException} is
+   * thrown. Note that the default implementation is case-insensitive but other implementation may be not.
    *
    * @param columnName
    *          the column name (which cannot be {@code null})
    * @return the index of this column
-   * @throws ColumnNotFoundException
+   * @throws CsvColumnNotFoundException
    *           if no column is found with the given name
    * @throws UnsupportedOperationException
    *           if the CVS does not provide column names
    * @throws NullPointerException
    *           if the given {@code columnName} is {@code null}
    */
-  int indexOf(String columnName) throws ColumnNotFoundException, UnsupportedOperationException, NullPointerException;
+  int indexOf(String columnName) throws CsvColumnNotFoundException, UnsupportedOperationException, NullPointerException;
 
   /**
    * Returns the number of columns (a positive number)

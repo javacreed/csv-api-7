@@ -19,9 +19,20 @@
  */
 package com.javacreed.api.csv.writer;
 
+/**
+ * A version of {@link DataColumnFormatterProvider} which also takes a priority order. Providers with lower order value
+ * are preferred over ones with higher order value.
+ *
+ * @author Albert Attard
+ */
 public interface OrderedDataColumnFormatterProvider
     extends DataColumnFormatterProvider, Comparable<OrderedDataColumnFormatterProvider> {
 
+  /**
+   * Returns the order of this formatter. Formatters with lower order values are tried before those with higher values.
+   *
+   * @return the order of this formatter
+   */
   int getOrder();
 
 }

@@ -17,25 +17,14 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.api.csv.writer;
+package com.javacreed.api.csv.reader;
 
-import java.io.IOException;
+import org.junit.Test;
 
-import com.javacreed.api.csv.common.CsvRuntimeException;
+public class CharBufferUtils_ShiftRead_Test {
 
-public class DefaultErrorHandler implements ErrorHandler {
+  @Test
+  public void test() {
 
-  public static final ErrorHandler INSTANCE = new DefaultErrorHandler();
-
-  private DefaultErrorHandler() {}
-
-  @Override
-  public void exception(final Exception e) {
-    throw new CsvRuntimeException(e);
-  }
-
-  @Override
-  public void io(final IOException e) {
-    throw new CsvRuntimeException(e);
   }
 }

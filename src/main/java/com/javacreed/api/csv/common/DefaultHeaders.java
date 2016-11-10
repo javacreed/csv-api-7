@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -61,12 +61,12 @@ public class DefaultHeaders implements Headers {
    * @param headers
    *          the headers array (which cannot be {@code null})
    * @throws NullPointerException
-   *           if the given {@code headers} are {@Code null}
-   * @throws DuplicateColumnNameException
+   *           if the given {@code headers} are {@code null}
+   * @throws DuplicateCsvColumnNameException
    *           if the given {@code headers} contain duplicate names
    */
   public DefaultHeaders(final boolean caseSensitive, final String... headers)
-      throws NullPointerException, DuplicateColumnNameException {
+      throws NullPointerException, DuplicateCsvColumnNameException {
     this.size = headers.length;
     hasValues = true;
     this.headers = headers;
@@ -76,7 +76,7 @@ public class DefaultHeaders implements Headers {
     for (int i = 0; i < headers.length; i++) {
       final String header = headers[i];
       if (columnsIndices.containsKey(header)) {
-        throw new DuplicateColumnNameException(header);
+        throw new DuplicateCsvColumnNameException(header);
       }
 
       columnsIndices.put(header, i);
@@ -130,7 +130,7 @@ public class DefaultHeaders implements Headers {
 
   /**
    * Creates an instance of this class using the arrays' values as the header columns mapping. It is important that the
-   * header values are unique (case-insensitive) as otherwise a {@link DuplicateColumnNameException} is thrown.
+   * header values are unique (case-insensitive) as otherwise a {@link DuplicateCsvColumnNameException} is thrown.
    * Furthermore, the headers cannot have {@code null} values as otherwise a {@link NullPointerException} is thrown
    * <p>
    * This is equivalent to calling {@code new DefaultHeaders(false, headers)}
@@ -140,11 +140,11 @@ public class DefaultHeaders implements Headers {
    *          (case-insensitive) values)
    * @throws NullPointerException
    *           if the given {@code headers} is {@code null} or has {@code null} values
-   * @throws DuplicateColumnNameException
+   * @throws DuplicateCsvColumnNameException
    *           if the given {@code headers} contains duplicate (case-insensitive) values
    * @see DefaultHeaders#DefaultHeaders(boolean, String...)
    */
-  public DefaultHeaders(final String... headers) throws NullPointerException, DuplicateColumnNameException {
+  public DefaultHeaders(final String... headers) throws NullPointerException, DuplicateCsvColumnNameException {
     this(false, headers);
   }
 
@@ -168,7 +168,7 @@ public class DefaultHeaders implements Headers {
   /**
    * Returns {@code true} if headers values are provided, {@code false} otherwise
    *
-   * @return
+   * @return {@code true} if headers values are provided, {@code false} otherwise
    */
   public boolean hasValues() {
     return hasValues;
@@ -180,7 +180,7 @@ public class DefaultHeaders implements Headers {
       return columnsIndices.get(columnName);
     }
 
-    throw new ColumnNotFoundException(columnName);
+    throw new CsvColumnNotFoundException(columnName);
   }
 
   @Override

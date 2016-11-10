@@ -21,12 +21,22 @@ package com.javacreed.api.csv.writer;
 
 import com.javacreed.api.csv.common.CsvRuntimeException;
 
+/**
+ * Thrown to indicate that something is nor properly configured
+ *
+ * @author Albert Attard
+ */
 public class CsvConfigurationException extends CsvRuntimeException {
 
   private static final long serialVersionUID = -3235540733365977973L;
 
+  /**
+   * Creates an instance of this exception
+   *
+   * @param message
+   *          the error message
+   */
   public CsvConfigurationException(final String message) {
     super(message);
   }
-
 }

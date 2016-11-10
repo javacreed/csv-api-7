@@ -49,8 +49,23 @@ public class TypeColumnFormatterProvider extends AbstractColumnFormatterProvider
       return this;
     }
 
+    /**
+     * Registers a column formatter for the given type. This will affect not only this type but also any objects that
+     * inherit from this type. When selecting the right formatter, the closest implementation is preferred over a less
+     * generic one. For example, The {@link String} class implements the {@link CharSequence} interface. Therefore when
+     * formatting strings, the formatter register for {@link String} type is preferred over the one for
+     * {@link CharSequence}.
+     *
+     * @param type
+     *          the object type (which cannot be {@code null})
+     * @param columnFormatter
+     *          the column formatter (which cannot be {@code null})
+     * @return this (for method chaining)
+     * @throws NullPointerException
+     *           if any of the given parameters are {@code null}
+     */
     public Builder register(final Class<?> type, final DataColumnFormatter columnFormatter)
-        throws NullPointerException, IllegalArgumentException {
+        throws NullPointerException {
       wrappers.add(new Wrapper(type, columnFormatter));
       return this;
     }
@@ -60,16 +75,16 @@ public class TypeColumnFormatterProvider extends AbstractColumnFormatterProvider
     private final Class<?> type;
     private final DataColumnFormatter columnFormatter;
 
-    public Wrapper(final Class<?> type, final DataColumnFormatter columnFormatter) throws NullPointerException {
+    private Wrapper(final Class<?> type, final DataColumnFormatter columnFormatter) throws NullPointerException {
       this.type = Objects.requireNonNull(type);
       this.columnFormatter = Objects.requireNonNull(columnFormatter);
     }
 
-    public DataColumnFormatter getColumnFormatter() {
+    private DataColumnFormatter getColumnFormatter() {
       return columnFormatter;
     }
 
-    public Class<?> getType() {
+    private Class<?> getType() {
       return type;
     }
   }

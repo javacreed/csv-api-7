@@ -52,6 +52,19 @@ public class IndexColumnFormatterProvider extends AbstractColumnFormatterProvide
       return this;
     }
 
+    /**
+     * Registers the given formatter at the given column index, replacing any existing formatter at the same column.
+     *
+     * @param index
+     *          the column index (which needs to be greater than or equal to 0)
+     * @param columnFormatter
+     *          the column formatter (which cannot be {@code null})
+     * @return this (for method chaining)
+     * @throws NullPointerException
+     *           if the given column formatter is {@code null}
+     * @throws IllegalArgumentException
+     *           if the given column index is negative, that is, less than 0
+     */
     public Builder register(final int index, final DataColumnFormatter columnFormatter)
         throws NullPointerException, IllegalArgumentException {
       if (index < 0) {
